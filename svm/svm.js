@@ -48,14 +48,14 @@ async function compile() {
     await fs.writeFile('svm.bin', program);
 }
 
-async function evaluate() {
+async function load() {
     const { buffer } = await fs.readFile('svm.bin');
     return new Uint32Array(buffer)
 }
 
 async function main() {
     await compile();
-    const program = await evaluate();
+    const program = await load();
     await run(program);
 }
 
