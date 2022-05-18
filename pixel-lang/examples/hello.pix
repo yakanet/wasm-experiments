@@ -1,0 +1,14 @@
+let size = 100
+echo size + 2
+
+let y = 10
+while(y > 0) 
+    let x = 10
+    while( x > 0)
+        let z = (x * y) + 2
+        echo z
+        x = x - 1
+    end
+    y = y - 1
+end
+echo -1
