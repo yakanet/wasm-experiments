@@ -1,13 +1,9 @@
 import { Tokenizer } from "tokenizer";
+import { KEYWORDS, OPERATORS } from "./grammar.ts";
 
 export interface TokenLocation {
   line: number;
   column: number;
-}
-export interface Token {
-  type: TokenType;
-  value: string;
-  location: TokenLocation;
 }
 
 type TokenType =
@@ -20,28 +16,11 @@ type TokenType =
   | "OPEN_PARENTHESIS"
   | "CLOSE_PARENTHESIS";
 
-const KEYWORDS = [
-  "echo",
-  "while",
-  "end",
-  "let",
-];
-
-export const OPERATORS = [
-  "+",
-  "-",
-  "*",
-  "/",
-  "<<",
-  ">>",
-  ">=",
-  "<=",
-  ">",
-  "<",
-  "=",
-  "&&",
-  "||"
-];
+export interface Token {
+  type: TokenType;
+  value: string;
+  location: TokenLocation;
+}
 
 /**
  * Convert a source code into Tokens
@@ -51,7 +30,7 @@ export const OPERATORS = [
 export function tokenize(source: string): Token[] {
   const tokenizer = new Tokenizer(`${source}\n`, [
     { type: "COMMENT_LINE", pattern: /\/\/.*/, ignore: true },
-    { type: "KEYWORD", pattern: KEYWORDS },
+    { type: "KEYWORD", pattern: <any> KEYWORDS },
     { type: "DIGIT", pattern: /-?[\d.]+(?:e-?\d+)?/ },
     { type: "WORD", pattern: /[a-zA-Z]+/ },
     { type: "OPEN_PARENTHESIS", pattern: "(" },

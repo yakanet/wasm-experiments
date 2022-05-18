@@ -1,4 +1,5 @@
 import type { Token, TokenLocation } from "./tokenizer.ts";
+import type { Operator } from "./grammar.ts";
 import { json } from "./util.ts";
 
 export interface PrintStatement {
@@ -45,7 +46,7 @@ export interface NumberLiteral {
 
 interface BinaryExpression {
   type: "binaryExpression";
-  value: string;
+  value: Operator;
   left: Expression;
   right: Expression;
   location: TokenLocation;
@@ -83,7 +84,7 @@ function parseOperator(t: TokenIterator, left: Expression): Expression {
   return {
     type: "binaryExpression",
     left,
-    value: operator.value,
+    value: <Operator> operator.value,
     right,
     location: operator.location,
   };

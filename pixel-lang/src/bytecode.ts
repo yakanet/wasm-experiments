@@ -8,13 +8,15 @@ import type {
   VariableDeclarationAssignmentStatement,
   WhileStatement,
 } from "./parser.ts";
+import { Operator } from "./grammar.ts";
 import { getVariableDeclaration } from "./util.ts";
-
 import binaryen from "binaryen";
 
-const isWasi = false;
 type Module = binaryen.Module;
+type ExpressionRef = binaryen.ExpressionRef;
 const { none, f32, i32 } = binaryen;
+
+const isWasi = false;
 
 const symbols = new Map<string, number>();
 let loopCount = 0;
@@ -27,7 +29,7 @@ const localIndexForSymbol = (name: string, create = true) => {
   return symbols.get(name)!;
 };
 
-function writeExpression(module: Module, node: Expression): number {
+function writeExpression(module: Module, node: Expression): ExpressionRef {
   switch (node.type) {
     case "numberLiteral": {
       /** https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-numeric */
@@ -35,62 +37,23 @@ function writeExpression(module: Module, node: Expression): number {
     }
     case "binaryExpression": {
       /** https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-numeric */
-      if (node.value === "+") {
-        return module.f32.add(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === "-") {
-        return module.f32.sub(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === "*") {
-        return module.f32.mul(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === "/") {
-        return module.f32.div(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === ">") {
-        return module.f32.gt(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === ">=") {
-        return module.f32.ge(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === "<") {
-        return module.f32.lt(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === "<=") {
-        return module.f32.le(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === "&&") {
-        return module.i32.and(
-          writeExpression(module, node.left),
-          writeExpression(module, node.right),
-        );
-      }
-      if (node.value === "||") {
-        return module.i32.or(
+      const handlers: Record<Operator, typeof module.f32.add> = {
+        "+": module.f32.add,
+        "*": module.f32.mul,
+        "-": module.f32.sub,
+        "/": module.f32.div,
+        "<": module.f32.lt,
+        ">": module.f32.gt,
+        "<=": module.f32.le,
+        ">=": module.f32.ge,
+        "<<": module.i32.shl,
+        ">>": module.i32.shr_s,
+        "&&": module.i32.and,
+        "||": module.i32.or,
+        "=": (_, __) => module.unreachable(),
+      };
+      if (node.value in handlers) {
+        return handlers[node.value](
           writeExpression(module, node.left),
           writeExpression(module, node.right),
         );
@@ -108,7 +71,10 @@ function writeExpression(module: Module, node: Expression): number {
   }
 }
 
-function writeProcStatement(module: Module, node: ProcStatement): number {
+function writeProcStatement(
+  module: Module,
+  node: ProcStatement,
+): ExpressionRef {
   // List every local variables used in this function
   const locals = getVariableDeclaration(node.statements);
   module.addFunctionExport(node.name, node.name);
@@ -124,7 +90,10 @@ function writeProcStatement(module: Module, node: ProcStatement): number {
   );
 }
 
-function writePrintStatement(module: Module, node: PrintStatement) {
+function writePrintStatement(
+  module: Module,
+  node: PrintStatement,
+): ExpressionRef {
   if (isWasi) {
     //
     //
@@ -163,7 +132,7 @@ function writePrintStatement(module: Module, node: PrintStatement) {
 function writeVariableDeclarationAssignment(
   module: Module,
   node: VariableDeclarationAssignmentStatement,
-) {
+): ExpressionRef {
   const local = localIndexForSymbol(node.name, true);
   return module.local.set(local, writeExpression(module, node.value));
 }
@@ -171,7 +140,7 @@ function writeVariableDeclarationAssignment(
 function writeVariableAssignment(
   module: Module,
   node: VariableAssignmentStatement,
-): number {
+): ExpressionRef {
   const local = localIndexForSymbol(node.name, false);
   return module.local.set(local, writeExpression(module, node.value));
 }
@@ -179,7 +148,7 @@ function writeVariableAssignment(
 function writeWhileStatement(
   module: Module,
   node: WhileStatement,
-): number {
+): ExpressionRef {
   /* https://developer.mozilla.org/en-US/docs/webassembly/reference/control_flow/loop */
   const exitBlock = `exitLoop${loopCount}`;
   const innerLoop = `innerLoop${loopCount}`;
@@ -201,7 +170,7 @@ function writeWhileStatement(
   return loop;
 }
 
-function writeStatement(module: Module, node: Statement): number {
+function writeStatement(module: Module, node: Statement): ExpressionRef {
   switch (node.type) {
     case "printStatement":
       return writePrintStatement(module, node);
@@ -229,7 +198,7 @@ export function write(ast: AST, optimize = true) {
       i32,
     ] as any, i32);
   } else {
-    module.addFunctionImport("echo", "env", "echo", [f32] as any, none);
+    module.addFunctionImport("echo", "env", "echo", f32, none);
   }
   ast.forEach((node) => writeStatement(module, node));
 
