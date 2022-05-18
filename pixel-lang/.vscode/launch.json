@@ -9,10 +9,11 @@
       "name": "Launch Program",
       "type": "pwa-node",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "C:\\dev\\scoop\\shims\\deno.EXE",
+      "runtimeExecutable": "deno",
       "runtimeArgs": [
         "run",
         //"--inspect-brk",
+        "--import-map=import_map.json",
         "--allow-all",
         "${workspaceFolder}\\index.ts",
         "${workspaceFolder}\\examples\\hello.pix"

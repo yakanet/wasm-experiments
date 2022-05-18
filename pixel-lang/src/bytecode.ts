@@ -10,10 +10,10 @@ import type {
 } from "./parser.ts";
 import { getVariableDeclaration } from "./util.ts";
 
-import binaryen from "https://unpkg.com/binaryen@108.0.0/index.js";
+import binaryen from "binaryen";
 
 const isWasi = false;
-type Module = typeof binaryen.Module;
+type Module = binaryen.Module;
 const { none, f32, i32 } = binaryen;
 
 const symbols = new Map<string, number>();
@@ -24,7 +24,7 @@ const localIndexForSymbol = (name: string, create = true) => {
     if (create) symbols.set(name, symbols.size);
     else throw new Error("Unknown identifier " + name);
   }
-  return symbols.get(name);
+  return symbols.get(name)!;
 };
 
 function writeExpression(module: Module, node: Expression): number {
@@ -100,7 +100,7 @@ function writeExpression(module: Module, node: Expression): number {
     case "identifier": {
       /** https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-variable */
       const local = localIndexForSymbol(node.value, false);
-      return module.local.get(local);
+      return module.local.get(local, 0);
     }
     case "subExpression": {
       return writeExpression(module, node.expression);
@@ -227,9 +227,9 @@ export function write(ast: AST, optimize = true) {
       i32,
       i32,
       i32,
-    ], i32);
+    ] as any, i32);
   } else {
-    module.addFunctionImport("echo", "env", "echo", [f32], none);
+    module.addFunctionImport("echo", "env", "echo", [f32] as any, none);
   }
   ast.forEach((node) => writeStatement(module, node));
 

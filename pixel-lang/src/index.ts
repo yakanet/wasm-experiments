@@ -18,3 +18,4 @@ const { bytecode, text } = compile(source_code, source_path, {
 });
 await Deno.writeTextFile(out`${source_path}.wat`, text);
 await Deno.writeFile(out`${source_path}.wasm`, bytecode);
+console.info("%cSuccessfully compiled", 'color: green');

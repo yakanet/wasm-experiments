@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "binaryen": "https://esm.sh/binaryen?target=deno",
+    "tokenizer": "https://raw.githubusercontent.com/load1n9/tokenizer/master/mod.ts"
+  }
+}

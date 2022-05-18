@@ -7,7 +7,7 @@ A simple language using WASM backend, to experiments with WASM instructions.
 🔗 [pixel-lang](./pixel-lang/)
 
 ```shell
-deno run -A index.ts examples/hello.pix
+deno run -A --import-map=import_map.json src/index.ts examples/hello.pix
 npx http-server
 iexplorer http://localhost:8080
 ```

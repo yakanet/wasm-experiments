@@ -1,4 +1,4 @@
-import { Tokenizer } from "https://raw.githubusercontent.com/load1n9/tokenizer/master/mod.ts";
+import { Tokenizer } from "tokenizer";
 
 export interface TokenLocation {
   line: number;
