@@ -1,20 +1,26 @@
-import { Tokenizer } from "tokenizer";
+import { Rule, Tokenizer } from "tokenizer";
 import { KEYWORDS, OPERATORS } from "./grammar.ts";
+
+const tokens = [
+  { type: "COMMENT_LINE", pattern: /\/\/.*/, ignore: true },
+  { type: "KEYWORD", pattern: [...KEYWORDS] },
+  { type: "DIGIT", pattern: /-?[\d.]+(?:e-?\d+)?/ },
+  { type: "WORD", pattern: /[a-zA-Z]+/ },
+  { type: "OPEN_PARENTHESIS", pattern: "(" },
+  { type: "CLOSE_PARENTHESIS", pattern: ")" },
+  { type: "OPERATOR", pattern: [...OPERATORS] },
+  { type: "SPACE", pattern: /\s/, ignore: true },
+] as const;
+
+type TokenType = Exclude<
+  `${typeof tokens[number]["type"]}`,
+  "SPACE" | "COMMENT_LINE"
+>;
 
 export interface TokenLocation {
   line: number;
   column: number;
 }
-
-type TokenType =
-  | "KEYWORD"
-  | "TYPE"
-  | "WORD"
-  | "OPERATOR"
-  | "STRING"
-  | "DIGIT"
-  | "OPEN_PARENTHESIS"
-  | "CLOSE_PARENTHESIS";
 
 export interface Token {
   type: TokenType;
@@ -28,16 +34,7 @@ export interface Token {
  * @returns the source code tokenized
  */
 export function tokenize(source: string): Token[] {
-  const tokenizer = new Tokenizer(`${source}\n`, [
-    { type: "COMMENT_LINE", pattern: /\/\/.*/, ignore: true },
-    { type: "KEYWORD", pattern: <any> KEYWORDS },
-    { type: "DIGIT", pattern: /-?[\d.]+(?:e-?\d+)?/ },
-    { type: "WORD", pattern: /[a-zA-Z]+/ },
-    { type: "OPEN_PARENTHESIS", pattern: "(" },
-    { type: "CLOSE_PARENTHESIS", pattern: ")" },
-    { type: "OPERATOR", pattern: OPERATORS },
-    { type: "SPACE", pattern: /\s/, ignore: true },
-  ]);
+  const tokenizer = new Tokenizer(`${source}\n`, structuredClone(tokens));
   return tokenizer.tokenize().map((token) => ({
     type: token.type as TokenType,
     value: token.value,

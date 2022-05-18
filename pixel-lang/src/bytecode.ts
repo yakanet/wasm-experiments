@@ -14,9 +14,7 @@ import binaryen from "binaryen";
 
 type Module = binaryen.Module;
 type ExpressionRef = binaryen.ExpressionRef;
-const { none, f32, i32 } = binaryen;
-
-const isWasi = false;
+const { none, f32 } = binaryen;
 
 const symbols = new Map<string, number>();
 let loopCount = 0;
@@ -77,7 +75,9 @@ function writeProcStatement(
 ): ExpressionRef {
   // List every local variables used in this function
   const locals = getVariableDeclaration(node.statements);
-  module.addFunctionExport(node.name, node.name);
+  if (node.export) {
+    module.addFunctionExport(node.name, node.name);
+  }
   return module.addFunction(
     node.name,
     none,
@@ -94,38 +94,6 @@ function writePrintStatement(
   module: Module,
   node: PrintStatement,
 ): ExpressionRef {
-  if (isWasi) {
-    //
-    //
-    //    (i32.store (i32.const 1088) (local.get $p0))
-    //    (i32.store (i32.const 1092) (local.get $l3))
-    //    i32.const 1
-    //    i32.const 1088
-    //    i32.const 1
-    //    i32.const 1096
-    //    call $wasi_snapshot_preview1.fd_write
-    const value = module.i32.const(66);
-    const vptr = module.i32.const(10);
-    const iovptr = module.i32.const(20);
-
-    return module.drop(
-      module.block(null, [
-        module.i32.store(0, 0, vptr, value),
-        module.i32.store16(0, 0, iovptr, vptr),
-        module.i32.store16(0, 0, module.i32.const(24), module.i32.const(1)),
-        module.call("echo", [
-          module.i32.const(1),
-          iovptr,
-          module.i32.const(1),
-          module.i32.const(1096),
-        ], i32),
-      ]),
-      //module.call('echo', [
-      //  module.i32.const(1), // fd
-      //  // ptr-iov
-      //  module.i32.load(offset, align, ptr), value, , ptr]),
-    );
-  }
   return module.call("echo", [writeExpression(module, node.expression)], none);
 }
 
@@ -190,16 +158,7 @@ function writeStatement(module: Module, node: Statement): ExpressionRef {
 export function write(ast: AST, optimize = true) {
   const module = new binaryen.Module();
   module.setMemory(1, 2, "memory", []);
-  if (isWasi) {
-    module.addFunctionImport("echo", "wasi_snapshot_preview1", "fd_write", [
-      i32,
-      i32,
-      i32,
-      i32,
-    ] as any, i32);
-  } else {
-    module.addFunctionImport("echo", "env", "echo", f32, none);
-  }
+  module.addFunctionImport("echo", "env", "echo", f32, none);
   ast.forEach((node) => writeStatement(module, node));
 
   // Optimize the module using default passes and levels
