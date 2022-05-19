@@ -62,3 +62,5 @@ mvn compile exec:java
 Have to build the lib manualy because : 
 - bintray repository listed in https://github.com/wasmerio/wasmer-java#install is not available
 - Import function is still a pending feature: https://github.com/wasmerio/wasmer-java/pull/64
+
+🔗 [interoperability with java](./interoperability/java)
