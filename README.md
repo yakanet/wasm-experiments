@@ -28,12 +28,37 @@ node svm.js
 
 ## Interoperability
 
-Simple example to showcase webassembly in python
+Simple example to showcase webassembly with other languages
 
 🔗 [interoperability](./interoperability/)
 
+### Python
 ```shell
 pip install wasmtime
 wat2wasm hello.wat
 python3 main.py
 ```
+🔗 [interoperability with python](./interoperability/python)
+
+### Rust
+```shell
+cargo run
+```
+🔗 [interoperability with rust](./interoperability/rust)
+
+### NodeJS
+```shell
+node index.js
+```
+🔗 [interoperability with node](./interoperability/node)
+
+### Java
+
+```shell
+mvn compile exec:java
+```
+
+#### Caveat:
+Have to build the lib manualy because : 
+- bintray repository listed in https://github.com/wasmerio/wasmer-java#install is not available
+- Import function is still a pending feature: https://github.com/wasmerio/wasmer-java/pull/64
