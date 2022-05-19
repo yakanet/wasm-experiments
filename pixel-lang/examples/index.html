@@ -13,7 +13,7 @@
             echo: (arg) => console.log(arg)
         }
     };
-    const {instance} = await WebAssembly.instantiateStreaming(fetch('./hello.wasm'), importObject);
+    const {instance} = await WebAssembly.instantiateStreaming(fetch('./fizzbuzz.wasm'), importObject);
     console.log({ instance })
     instance.exports.main();
 </script>
