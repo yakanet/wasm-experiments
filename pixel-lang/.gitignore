@@ -1,4 +1,3 @@
 examples/*
 !examples/*.pix
 !examples/index.html
-.idea

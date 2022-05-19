@@ -23,7 +23,8 @@ A simple stack virtual machine designed with 3 instructions.
 🔗 [svm](./svm/)
 
 ```shell
-node svm.js
+node compiler.mjs
+node runtime.mjs
 ```
 
 ## Interoperability
@@ -35,8 +36,13 @@ Simple example to showcase webassembly with other languages
 ### Python
 ```shell
 pip install wasmtime
+
+# First example with autoload
 wat2wasm hello.wat
-python3 main.py
+python3 main.py 
+
+# Second exmple with import functions
+python3 pyxel.py
 ```
 🔗 [interoperability with python](./interoperability/python)
 

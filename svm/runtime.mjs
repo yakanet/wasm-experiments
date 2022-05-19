@@ -1,8 +1,6 @@
-const fs = require('node:fs/promises');
+import fs from 'node:fs/promises';
 
-const INST_PUSH = 1
-const INST_ADD = 2
-const INST_PRINT = 3
+import { INST_ADD, INST_PRINT, INST_PUSH } from './common.mjs';
 
 function run(program) {
     let ip = 0
@@ -27,7 +25,7 @@ function run(program) {
             }
             case INST_PRINT:
                 const value = stack.pop()
-                console.log("Result :" , value);
+                console.log("Result :", value);
                 // Debug purpose
                 debug.push({ program: [program[ip]], description: 'PRINT POP', stack: [...stack] });
                 break;
@@ -37,24 +35,12 @@ function run(program) {
     console.table(debug);
 }
 
-async function compile() {
-    const program = new Uint32Array([
-        INST_PUSH, 30,
-        INST_PUSH, 12,
-        INST_PUSH, 19,
-        INST_ADD,
-        INST_PRINT,
-    ]);
-    await fs.writeFile('svm.bin', program);
-}
-
 async function load() {
-    const { buffer } = await fs.readFile('svm.bin');
+    const { buffer } = await fs.readFile('source.bin');
     return new Uint32Array(buffer)
 }
 
 async function main() {
-    await compile();
     const program = await load();
     await run(program);
 }
