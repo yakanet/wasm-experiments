@@ -1,6 +1,7 @@
 import type {
   AST,
   Expression,
+  IfStatement,
   PrintStatement,
   ProcStatement,
   Statement,
@@ -35,20 +36,22 @@ function writeExpression(module: Module, node: Expression): ExpressionRef {
     }
     case "binaryExpression": {
       /** https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-numeric */
-      const handlers: Record<Operator, typeof module.f32.add> = {
-        "+": module.f32.add,
-        "*": module.f32.mul,
-        "-": module.f32.sub,
-        "/": module.f32.div,
-        "<": module.f32.lt,
-        ">": module.f32.gt,
-        "<=": module.f32.le,
-        ">=": module.f32.ge,
-        "<<": module.i32.shl,
-        ">>": module.i32.shr_s,
-        "&&": module.i32.and,
-        "||": module.i32.or,
-        "=": (_, __) => module.unreachable(),
+      const handlers: Record<Operator, (left: ExpressionRef, right: ExpressionRef) => ExpressionRef> = {
+        "+": (l, r) => module.f32.add(l, r),
+        "*": (l, r) => module.f32.mul(l, r),
+        "-": (l, r) => module.f32.sub(l, r),
+        "/": (l, r) => module.f32.div(l, r),
+        "<": (l, r) => module.f32.lt(l, r),
+        ">": (l, r) => module.f32.gt(l, r),
+        "<=": (l, r) => module.f32.le(l, r),
+        ">=": (l, r) => module.f32.ge(l, r),
+        "<<": (l, r) => module.i32.shl(l, r),
+        ">>": (l, r) => module.i32.shr_s(l, r),
+        "&&": (l, r) => module.i32.and(l, r),
+        "||": (l, r) => module.i32.or(l, r),
+        "==": (l, r) => module.f32.eq(l, r),
+        "%": (l, r) => module.f32.convert_u.i32(module.i32.rem_u(module.i32.trunc_s.f32(l), module.i32.trunc_s.f32(r))),
+        "=": (l, r) => module.unreachable(),
       };
       if (node.value in handlers) {
         return handlers[node.value](
@@ -113,6 +116,39 @@ function writeVariableAssignment(
   return module.local.set(local, writeExpression(module, node.value));
 }
 
+function writeIfStatement(
+  module: Module,
+  node: IfStatement,
+): ExpressionRef {
+
+  if (!node.elseStatements.length) {
+    // case if only
+    const ifBlock = `exitIf${loopCount}`;
+    loopCount++;
+    const condition = module.block(ifBlock, [
+      module.br_if(ifBlock, module.i32.eqz(writeExpression(module, node.condition))),
+      ...node.ifStatements.map(s => writeStatement(module, s)),
+    ])
+    return condition
+  } else {
+    // case if else
+    const exitBlock = `exitCondition${loopCount}`;
+    const ifBlock = `exitIf${loopCount}`;
+    loopCount++;
+    const condition = module.block(exitBlock, [
+      module.block(ifBlock, [
+        module.br_if(ifBlock, module.i32.eqz(writeExpression(module, node.condition))),
+        ...node.ifStatements.map(s => writeStatement(module, s)),
+        module.br(exitBlock)
+      ]),
+      ...node.elseStatements.map(s => writeStatement(module, s)),
+    ])
+    return condition;
+  }
+  // TODO case elif
+
+}
+
 function writeWhileStatement(
   module: Module,
   node: WhileStatement,
@@ -150,6 +186,8 @@ function writeStatement(module: Module, node: Statement): ExpressionRef {
       return writeVariableAssignment(module, node);
     case "whileStatement":
       return writeWhileStatement(module, node);
+    case "ifStatement":
+      return writeIfStatement(module, node);
     default:
       throw new Error("Unknown statement " + JSON.stringify(node));
   }

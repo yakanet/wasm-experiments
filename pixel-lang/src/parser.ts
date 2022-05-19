@@ -38,6 +38,14 @@ export interface WhileStatement {
   location: TokenLocation;
 }
 
+export interface IfStatement {
+  type: "ifStatement";
+  condition: Expression;
+  ifStatements: Statement[];
+  elseStatements: Statement[];
+  location: TokenLocation;
+}
+
 export interface NumberLiteral {
   type: "numberLiteral";
   value: number;
@@ -69,7 +77,8 @@ export type Statement =
   | ProcStatement
   | VariableAssignmentStatement
   | VariableDeclarationAssignmentStatement
-  | WhileStatement;
+  | WhileStatement
+  | IfStatement;
 export type Expression =
   | NumberLiteral
   | Identifier
@@ -84,7 +93,7 @@ function parseOperator(t: TokenIterator, left: Expression): Expression {
   return {
     type: "binaryExpression",
     left,
-    value: <Operator> operator.value,
+    value: <Operator>operator.value,
     right,
     location: operator.location,
   };
@@ -164,22 +173,64 @@ function statementEcho(t: TokenIterator): Statement {
   };
 }
 
+function statementIf(t: TokenIterator): Statement {
+  const ifToken = t.currentToken();
+  t.markAsDone();
+  if (t.currentToken().type !== "OPEN_PARENTHESIS") {
+    throw new Error(
+      "A if instruction should be followed by an open parenthesis. " +
+      json(t.currentToken()),
+    );
+  }
+  t.markAsDone(); // (
+  const condition = parseExpression(t);
+  if (t.currentToken().type !== "CLOSE_PARENTHESIS") {
+    throw new Error(
+      "A if instruction should end with a close parenthesis. " +
+      json(t.currentToken()),
+    );
+  }
+  t.markAsDone(); // )
+
+  const statements: Statement[][] = [[], []];
+  let statementIndex = 0;
+  while (
+    t.currentToken().type !== "KEYWORD" || t.currentToken().value !== "end"
+  ) {
+    if (t.currentToken().type === 'KEYWORD' && t.currentToken().value === 'else') {
+      statementIndex++;
+      t.markAsDone();
+    } else {
+      statements[statementIndex].push(parseStatement(t));
+    }
+  }
+  t.markAsDone(); // end
+
+  return {
+    type: "ifStatement",
+    condition,
+    ifStatements: statements[0],
+    elseStatements: statements[1],
+    location: ifToken.location,
+  };
+}
+
 function statementWhile(t: TokenIterator): Statement {
   const whileToken = t.currentToken();
   t.markAsDone();
   if (t.currentToken().type !== "OPEN_PARENTHESIS") {
     throw new Error(
       "A while instruction should be followed by an open parenthesis. " +
-        json(t.currentToken()),
+      json(t.currentToken()),
     );
   }
-  t.markAsDone(); // ()
+  t.markAsDone(); // (
   const condition = parseExpression(t);
 
   if (t.currentToken().type !== "CLOSE_PARENTHESIS") {
     throw new Error(
       "A while instruction should end with a close parenthesis. " +
-        json(t.currentToken()),
+      json(t.currentToken()),
     );
   }
   t.markAsDone(); // )
@@ -227,10 +278,12 @@ function parseStatement(t: TokenIterator): Statement {
         return statementVariableDeclaration(t);
       case "while":
         return statementWhile(t);
+      case "if":
+        return statementIf(t);
       default:
         throw new Error(
           "Unrecognized statement: " +
-            json(t.currentToken()),
+          json(t.currentToken()),
         );
     }
   } else if (t.currentToken().type === "WORD") {
