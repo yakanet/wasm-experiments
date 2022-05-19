@@ -4,7 +4,7 @@ use wasmer::*;
 fn main() -> Result<(), Box<dyn Error>> {
     // Load wasm file
     let store = Store::default();
-    let module = Module::from_file(&store, "../../pixel-lang/examples/hello.wasm")?;
+    let module = Module::from_file(&store, "../../pixel-lang/examples/fizzbuzz.wasm")?;
 
     // Define Import function
     let import_object = imports! {

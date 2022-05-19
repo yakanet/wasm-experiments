@@ -2,7 +2,7 @@ from wasmtime import Func, FuncType, Instance, Store, Module, ValType
 
 # Load wasm file
 store = Store()
-module = Module.from_file(store.engine, "../../pixel-lang/examples/hello.wasm")
+module = Module.from_file(store.engine, "../../pixel-lang/examples/fizzbuzz.wasm")
 
 # Define Import function
 def echo(value):

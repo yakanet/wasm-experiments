@@ -11,7 +11,7 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) throws IOException {
-        var wasmPath = Paths.get("../../pixel-lang/examples/hello.wasm");
+        var wasmPath = Paths.get("../../pixel-lang/examples/fizzbuzz.wasm");
         var wasmBytes = Files.readAllBytes(wasmPath);
 
         var module = new Module(wasmBytes);
