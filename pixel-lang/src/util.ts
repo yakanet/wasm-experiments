@@ -7,29 +7,33 @@ export function out(strings: object, path: string) {
   return `${prefix}${path.replace(extensionRegexp, suffix)}`;
 }
 
-export function randomId(length = 10) {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
+/**
+ * Simple utility function to pretty print an object into json
+ * @param object Object to jsonify
+ * @returns json string
+ */
 export const json = (object: any) => JSON.stringify(object, null, 2);
 
+/**
+ * Check if the node is a DeclarationExpression Node
+ * @param node node to check
+ * @returns
+ */
 function isDeclarationExpression(
   node: any,
 ): node is VariableDeclarationAssignmentStatement {
   return node?.type === "variableDeclarationAssignment";
 }
 
+/**
+ * Parse every nodes looking for a variable declaration
+ * @param nodes
+ * @returns
+ */
 export function getVariableDeclaration(
-  nodes: any | any[],
+  inodes: unknown | unknown[],
 ): VariableDeclarationAssignmentStatement[] {
-  nodes = Array.isArray(nodes) ? nodes : [nodes];
+  const nodes = Array.isArray(inodes) ? inodes : [inodes];
   const result: VariableDeclarationAssignmentStatement[] = [];
   for (let node of nodes) {
     if (isDeclarationExpression(node)) {

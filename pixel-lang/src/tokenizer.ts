@@ -1,4 +1,4 @@
-import { Rule, Tokenizer } from "tokenizer";
+import { Tokenizer } from "tokenizer";
 import { KEYWORDS, OPERATORS } from "./grammar.ts";
 
 const tokens = [
