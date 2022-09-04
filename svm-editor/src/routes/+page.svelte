@@ -166,7 +166,7 @@ ${syntax[OP.DISPLAY]}`;
     >
         <legend>Stack</legend>
         <ul
-            style="display: flex; position: absolute; list-style: none; padding:0 ; flex-direction: column-reverse;"
+            style="display: flex; position: absolute; list-style: none; padding:0; margin: 0 ; flex-direction: column-reverse;"
         >
             {#if runningIndex > 0}
                 {#each compiled.at(runningIndex - 1)?.stack ?? [] as item (item)}
