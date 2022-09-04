@@ -11,12 +11,11 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-        working-directory: svm-editor
-
-    runs-on: ubuntu-latest
+        working-directory: ./svm-editor
 
     steps:
     - uses: actions/checkout@v3
@@ -28,5 +27,8 @@ jobs:
         node-version: 16
         cache: 'pnpm'
     - run: pnpm install --frozen-lockfile
+      working-directory: ./svm-editor
     - run: pnpm run build
+      working-directory: ./svm-editor
     - run: pnpm test
+      working-directory: ./svm-editor
