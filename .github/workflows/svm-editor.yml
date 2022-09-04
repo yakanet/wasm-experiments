@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
+name: SVM Editor CI
 
 on:
   push:
@@ -26,9 +26,7 @@ jobs:
       with:
         node-version: 16
         cache: 'pnpm'
+        cache-dependency-path: ./svm-editor/pnpm-lock.yaml
     - run: pnpm install --frozen-lockfile
-      working-directory: ./svm-editor
     - run: pnpm run build
-      working-directory: ./svm-editor
     - run: pnpm test
-      working-directory: ./svm-editor
