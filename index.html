@@ -7,11 +7,11 @@
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="content-security-policy" content="">
 	<link href="/wasm-experiments/_app/immutable/assets/_page-3855bf96.css" rel="stylesheet">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-ac6233d4.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/index-9af905c0.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-d16253a0.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/layout.svelte-37de89a1.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-656fe1db.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-7996deaf.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/index-aaceca5f.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-b42546d9.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/layout.svelte-19098fe0.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-0a61f6bd.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/modules/pages/_page.ts-e9fa0128.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/_page-802cc2a3.js">
 	<style>
@@ -30,20 +30,18 @@
         <dl><dt><code>POUSSE</code> (OP 00)
             </dt><dd>Pousse le nombre (0-255) qui arrive après sur la stack</dd></dl>
         <dl><dt><code>SOMME</code> (OP 01)
-            </dt><dd>Consomme les deux nombres sur la stack, les additionne, et
+            </dt><dd>Consomme deux nombres sur la stack, les additionne, et
                 pousse le résultat sur la stack
             </dd></dl>
-        <dl><dt><code>ECRIT</code> (OP 02)
-            </dt><dd>Prend le nombre qui est sur la stack et écrit dans la console le
-                résultat
-            </dd></dl></fieldset>
+        <dl><dt><code>AFFICHE</code> (OP 02)
+            </dt><dd>Prend le nombre qui est sur la stack et l&#39;affiche</dd></dl></fieldset>
     <fieldset class="source svelte-3zoq3t"><legend>Source (Langage Imaginaire)</legend>
         <textarea class="svelte-3zoq3t">POUSSE 12
 POUSSE 23
 POUSSE 48
 SOMME
 SOMME
-ECRIT</textarea>
+AFFICHE</textarea>
         <div><button>Compile</button></div></fieldset>
 
     <fieldset class="assembly svelte-3zoq3t" style="visibility: hidden"><legend>Assembly</legend>
@@ -62,8 +60,8 @@ ECRIT</textarea>
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="1d6equk">
-		import { start } from "/wasm-experiments/_app/immutable/start-ac6233d4.js";
+		<script type="module" data-sveltekit-hydrate="y94ody">
+		import { start } from "/wasm-experiments/_app/immutable/start-7996deaf.js";
 
 		start({
 			env: {},
@@ -77,7 +75,7 @@ ECRIT</textarea>
 				errors: null
 			},
 			paths: {"base":"/wasm-experiments","assets":"/wasm-experiments"},
-			target: document.querySelector('[data-sveltekit-hydrate="1d6equk"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="y94ody"]').parentNode,
 			trailing_slash: "never"
 		});
 	</script>
