@@ -1,10 +1,8 @@
 # Pixel language
 
-Simple compilator using WASM backend.
+Simple compiler using WASM backend.
 
-This compilator is written in Typescript (because why not) and has essentialy an educational purpose.
-
-The language features come 
+This compiler is written in Typescript (because why not) and has essentially an educational purpose.
 
 Features:
 - [x] Tokenizer
@@ -22,5 +20,11 @@ Features:
 - [ ] Compatibility with WASI? (use fd_write instead of echo?)
 - [ ] Fix broken optimized WASM when using while or if structures
 
-Credit : 
+
+## How to start
+```shell
+deno run -A --import-map=import_map.json src/index.ts examples/hello.pix
+```
+
+## Credit : 
 - https://www.youtube.com/watch?v=awe7swqFOOw : Youtube video that inspired me on this project
