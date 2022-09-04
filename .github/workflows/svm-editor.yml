@@ -29,4 +29,7 @@ jobs:
         cache-dependency-path: ./svm-editor/pnpm-lock.yaml
     - run: pnpm install --frozen-lockfile
     - run: pnpm run build
-    - run: pnpm test
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: ./svm-editor/build
