@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fly, slide } from "svelte/transition";
+    import { fly } from "svelte/transition";
 
     import { type Compiled, OP, syntax, reverseSyntax } from "$lib/model.js";
 
@@ -15,8 +15,8 @@ ${syntax[OP.DISPLAY]}`;
     let compiled: Compiled[] = [];
 
     $: {
-        const fn = compiled[runningIndex]?.execute;
-        if (fn) setTimeout(fn, 250);
+        const fn = compiled[runningIndex - 1]?.execute;
+        if (fn) setTimeout(fn, 1);
     }
 
     function* compile(source: string): Iterable<Compiled> {
@@ -27,7 +27,7 @@ ${syntax[OP.DISPLAY]}`;
         while (true) {
             const token = tokens.next();
             if (token.done) break;
-            const op = ~~reverseSyntax[token.value];
+            const op = reverseSyntax[token.value];
             switch (op) {
                 case OP.ADD: {
                     stack.push((stack.pop()!! + stack.pop()!!) & 0xff);
@@ -73,7 +73,7 @@ ${syntax[OP.DISPLAY]}`;
 <main>
     <fieldset class="grammar">
         <legend>Machine Virtuelle</legend>
-        <dl>
+        <dl style="display: flex; flex-direction:column; gap: 5px">
             <dt>
                 <code>{syntax[OP.PUSH]}</code> (OP {formatNumber(
                     OP.PUSH,
@@ -81,17 +81,13 @@ ${syntax[OP.DISPLAY]}`;
                 )})
             </dt>
             <dd>Pousse le nombre (0-255) qui arrive après sur la stack</dd>
-        </dl>
-        <dl>
             <dt>
                 <code>{syntax[OP.ADD]}</code> (OP {formatNumber(OP.ADD, true)})
             </dt>
             <dd>
-                Consomme deux nombres sur la stack, les additionne, et
-                pousse le résultat sur la stack
+                Consomme deux nombres sur la stack, les additionne, et pousse le
+                résultat sur la stack
             </dd>
-        </dl>
-        <dl>
             <dt>
                 <code>{syntax[OP.DISPLAY]}</code> (OP {formatNumber(
                     OP.DISPLAY,
@@ -166,7 +162,7 @@ ${syntax[OP.DISPLAY]}`;
     >
         <legend>Stack</legend>
         <ul
-            style="display: flex; position: absolute; list-style: none; padding:0; margin: 0 ; flex-direction: column-reverse;"
+            style="display: flex; position: absolute; list-style: none; flex-direction: column-reverse;"
         >
             {#if runningIndex > 0}
                 {#each compiled.at(runningIndex - 1)?.stack ?? [] as item (item)}
@@ -180,21 +176,18 @@ ${syntax[OP.DISPLAY]}`;
 </main>
 
 <style>
-    :global(*, *::before, *::after) {
-        box-sizing: border-box;
-    }
-    :global(body) {
-        padding: 0;
-        margin: 0;
-    }
     main {
-        height: 100vh;
+        width: 100vmax;
+        height: 100vmin;
         display: grid;
         grid-template-areas:
             "G C C"
             "G A S";
         grid-template-columns: 30vw 1fr 10vw;
         grid-template-rows: 1fr 1fr;
+    }
+    main > * {
+        zoom: 2;
     }
     .grammar {
         grid-area: G;
@@ -216,6 +209,7 @@ ${syntax[OP.DISPLAY]}`;
     .source > textarea {
         flex: 1;
         font-family: monospace;
+        font-size: 0.8rem;
         white-space: pre;
         width: 100%;
         border: 0;
@@ -248,5 +242,10 @@ ${syntax[OP.DISPLAY]}`;
         background-color: beige;
         border: 1px solid black;
         z-index: 1;
+    }
+    ul,
+    dl {
+        margin: 0;
+        padding: 0;
     }
 </style>

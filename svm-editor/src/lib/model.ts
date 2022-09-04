@@ -23,4 +23,3 @@ export const syntax: Record<OP, string> = {
 export const reverseSyntax: Record<string, OP> = Object.fromEntries(
     Object.entries(syntax).map(([key, value]) => [value, ~~key])
 );
-console.log({reverseSyntax})
