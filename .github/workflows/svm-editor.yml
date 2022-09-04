@@ -11,6 +11,10 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        shell: bash
+        working-directory: svm-editor
 
     runs-on: ubuntu-latest
 
@@ -25,10 +29,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        cache: 'pnpm'
     - run: pnpm ci
-      working-directory: 'svm-editor'
     - run: pnpm run build --if-present
-      working-directory: 'svm-editor'
     - run: pnpm test
-      working-directory: 'svm-editor'
