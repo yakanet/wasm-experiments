@@ -29,7 +29,13 @@ jobs:
         cache-dependency-path: ./svm-editor/pnpm-lock.yaml
     - run: pnpm install --frozen-lockfile
     - run: pnpm run build
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@v4
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
       with:
-        folder: ./svm-editor/build
+        # Upload entire repository
+        path: './svm-editor/build'
+    - name: Deploy to GitHub Pages 🚀
+      id: deployment
+      uses: actions/deploy-pages@v1
