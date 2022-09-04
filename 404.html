@@ -6,13 +6,25 @@
 	<link rel="icon" href="/wasm-experiments/favicon.png" />
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="content-security-policy" content="">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-c603462f.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-76ba952d.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/index-aaceca5f.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-849f3a2a.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-dc06e25d.js">
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-		body {
+
+		html {
 			font-family: 'Open Sans', sans-serif;
+		}
+
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
+
+		body {
+			padding: 0;
+			margin: 0;
 		}
 	</style>
 </head>
@@ -20,7 +32,7 @@
 <body>
 	<div>
 		<script type="module" data-sveltekit-hydrate="45h">
-		import { start } from "/wasm-experiments/_app/immutable/start-c603462f.js";
+		import { start } from "/wasm-experiments/_app/immutable/start-76ba952d.js";
 
 		start({
 			env: {},

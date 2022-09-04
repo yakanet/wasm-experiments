@@ -6,18 +6,30 @@
 	<link rel="icon" href="/wasm-experiments/favicon.png" />
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="content-security-policy" content="">
-	<link href="/wasm-experiments/_app/immutable/assets/_page-3855bf96.css" rel="stylesheet">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-c603462f.js">
+	<link href="/wasm-experiments/_app/immutable/assets/_page-c5ed7943.css" rel="stylesheet">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-76ba952d.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/index-aaceca5f.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-849f3a2a.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-dc06e25d.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/layout.svelte-19098fe0.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-84decd3d.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-3c55499f.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/modules/pages/_page.ts-e9fa0128.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/_page-802cc2a3.js">
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-		body {
+
+		html {
 			font-family: 'Open Sans', sans-serif;
+		}
+
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
+
+		body {
+			padding: 0;
+			margin: 0;
 		}
 	</style>
 </head>
@@ -26,17 +38,15 @@
 	<div>
 
 
-<main class="svelte-3zoq3t"><fieldset class="grammar svelte-3zoq3t"><legend>Machine Virtuelle</legend>
-        <dl><dt><code>POUSSE</code> (OP 00)
-            </dt><dd>Pousse le nombre (0-255) qui arrive après sur la stack</dd></dl>
-        <dl><dt><code>SOMME</code> (OP 01)
-            </dt><dd>Consomme deux nombres sur la stack, les additionne, et
-                pousse le résultat sur la stack
-            </dd></dl>
-        <dl><dt><code>AFFICHE</code> (OP 02)
+<main class="svelte-14nm9"><fieldset class="grammar svelte-14nm9"><legend>Machine Virtuelle</legend>
+        <dl style="display: flex; flex-direction:column; gap: 5px" class="svelte-14nm9"><dt><code>POUSSE</code> (OP 00)
+            </dt><dd>Pousse le nombre (0-255) qui arrive après sur la stack</dd><dt><code>SOMME</code> (OP 01)
+            </dt><dd>Consomme deux nombres sur la stack, les additionne, et pousse le
+                résultat sur la stack
+            </dd><dt><code>AFFICHE</code> (OP 02)
             </dt><dd>Prend le nombre qui est sur la stack et l&#39;affiche</dd></dl></fieldset>
-    <fieldset class="source svelte-3zoq3t"><legend>Source (Langage Imaginaire)</legend>
-        <textarea class="svelte-3zoq3t">POUSSE 12
+    <fieldset class="source svelte-14nm9"><legend>Source (Langage Imaginaire)</legend>
+        <textarea class="svelte-14nm9">POUSSE 12
 POUSSE 23
 POUSSE 48
 SOMME
@@ -44,7 +54,7 @@ SOMME
 AFFICHE</textarea>
         <div><button>Compile</button></div></fieldset>
 
-    <fieldset class="assembly svelte-3zoq3t" style="visibility: hidden"><legend>Assembly</legend>
+    <fieldset class="assembly svelte-14nm9" style="visibility: hidden"><legend>Assembly</legend>
         <div style="display: flex; flex-wrap: wrap; align-content: baseline; gap: 5px; flex-direction: row;"></div>
         <div style="display: flex"><label><input type="checkbox">
                 Hex
@@ -55,13 +65,13 @@ AFFICHE</textarea>
             <label style="flex: 1; text-align: right">Position
                 <input style="text-align: right;" type="number" min="-1" max="0" value="-1"></label></div></fieldset>
 
-    <fieldset class="stack svelte-3zoq3t" style="overflow: hidden; visibility: hidden;"><legend>Stack</legend>
-        <ul style="display: flex; position: absolute; list-style: none; padding:0; margin: 0 ; flex-direction: column-reverse;"></ul></fieldset>
+    <fieldset class="stack svelte-14nm9" style="overflow: hidden; visibility: hidden;"><legend>Stack</legend>
+        <ul style="display: flex; position: absolute; list-style: none; flex-direction: column-reverse;" class="svelte-14nm9"></ul></fieldset>
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="2w5fh5">
-		import { start } from "/wasm-experiments/_app/immutable/start-c603462f.js";
+		<script type="module" data-sveltekit-hydrate="je7tl5">
+		import { start } from "/wasm-experiments/_app/immutable/start-76ba952d.js";
 
 		start({
 			env: {},
@@ -75,7 +85,7 @@ AFFICHE</textarea>
 				errors: null
 			},
 			paths: {"base":"/wasm-experiments","assets":"/wasm-experiments"},
-			target: document.querySelector('[data-sveltekit-hydrate="2w5fh5"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="je7tl5"]').parentNode,
 			trailing_slash: "never"
 		});
 	</script>
