@@ -18,18 +18,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - uses: pnpm/action-setup@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        version: 7.9.5
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
         cache: 'pnpm'
-    - run: pnpm ci
-    - run: pnpm run build --if-present
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm run build
     - run: pnpm test
