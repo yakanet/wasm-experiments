@@ -11,12 +11,12 @@ ${syntax[OP.PUSH]} 23
 ${syntax[OP.PUSH]} 48
 ${syntax[OP.ADD]}
 ${syntax[OP.ADD]}
-${syntax[OP.WRITE]}`;
+${syntax[OP.DISPLAY]}`;
     let compiled: Compiled[] = [];
 
     $: {
         const fn = compiled[runningIndex]?.execute;
-        if (fn) setTimeout(fn, 500);
+        if (fn) setTimeout(fn, 250);
     }
 
     function* compile(source: string): Iterable<Compiled> {
@@ -30,7 +30,7 @@ ${syntax[OP.WRITE]}`;
             const op = ~~reverseSyntax[token.value];
             switch (op) {
                 case OP.ADD: {
-                    stack.push(stack.pop()!! + stack.pop()!!);
+                    stack.push((stack.pop()!! + stack.pop()!!) & 0xff);
                     yield {
                         id: id++,
                         op,
@@ -39,7 +39,7 @@ ${syntax[OP.WRITE]}`;
                     };
                     break;
                 }
-                case OP.WRITE: {
+                case OP.DISPLAY: {
                     const writeData = stack.pop();
                     yield {
                         id: id++,
@@ -87,21 +87,18 @@ ${syntax[OP.WRITE]}`;
                 <code>{syntax[OP.ADD]}</code> (OP {formatNumber(OP.ADD, true)})
             </dt>
             <dd>
-                Consomme les deux nombres sur la stack, les additionne, et
+                Consomme deux nombres sur la stack, les additionne, et
                 pousse le résultat sur la stack
             </dd>
         </dl>
         <dl>
             <dt>
-                <code>{syntax[OP.WRITE]}</code> (OP {formatNumber(
-                    OP.WRITE,
+                <code>{syntax[OP.DISPLAY]}</code> (OP {formatNumber(
+                    OP.DISPLAY,
                     true
                 )})
             </dt>
-            <dd>
-                Prend le nombre qui est sur la stack et écrit dans la console le
-                résultat
-            </dd>
+            <dd>Prend le nombre qui est sur la stack et l'affiche</dd>
         </dl>
     </fieldset>
     <fieldset class="source">
@@ -173,7 +170,7 @@ ${syntax[OP.WRITE]}`;
         >
             {#if runningIndex > 0}
                 {#each compiled.at(runningIndex - 1)?.stack ?? [] as item (item)}
-                    <li transition:fly|local={{ y: -20 }}>
+                    <li in:fly|local={{ y: -20 }}>
                         {item}
                     </li>
                 {/each}

@@ -1,7 +1,7 @@
 export enum OP {
     PUSH = 0,
     ADD = 1,
-    WRITE = 2,
+    DISPLAY = 2,
 }
 
 export interface Compiled {
@@ -16,7 +16,7 @@ export interface Compiled {
 export const syntax: Record<OP, string> = {
     [OP.PUSH]: 'POUSSE',
     [OP.ADD]: 'SOMME',
-    [OP.WRITE]: 'ECRIT',
+    [OP.DISPLAY]: 'AFFICHE',
 } as const
 
 // @ts-ignore
