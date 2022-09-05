@@ -3,16 +3,18 @@
 
 <head>
 	<meta charset="utf-8" />
+	<title>How does virtual machine works</title>
 	<link rel="icon" href="/wasm-experiments/favicon.png" />
 	<meta name="viewport" content="width=device-width" />
+	<meta name="description" content="Simple example to showcase a 3 operation virtual machine">
 	<meta http-equiv="content-security-policy" content="">
-	<link href="/wasm-experiments/_app/immutable/assets/_layout-79f08c8d.css" rel="stylesheet">
+	<link href="/wasm-experiments/_app/immutable/assets/_layout-c7a7cdb9.css" rel="stylesheet">
 	<link href="/wasm-experiments/_app/immutable/assets/_page-c5ed7943.css" rel="stylesheet">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-ec38af58.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-a23665ec.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/index-aaceca5f.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-3079f336.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-adbcf8b4.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_layout.svelte-4f959587.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-3c55499f.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-3934164d.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/modules/pages/_page.ts-e9fa0128.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/_page-802cc2a3.js">
 </head>
@@ -29,7 +31,7 @@
             </dd><dt><code>AFFICHE</code> (OP 02)
             </dt><dd>Prend le nombre qui est sur la stack et l&#39;affiche</dd></dl></fieldset>
     <fieldset class="source svelte-14nm9"><legend>Source (Langage Imaginaire)</legend>
-        <textarea class="svelte-14nm9">POUSSE 12
+        <textarea aria-label="Source code" class="svelte-14nm9">POUSSE 12
 POUSSE 23
 POUSSE 48
 SOMME
@@ -53,8 +55,8 @@ AFFICHE</textarea>
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="je7tl5">
-		import { start } from "/wasm-experiments/_app/immutable/start-ec38af58.js";
+		<script type="module" data-sveltekit-hydrate="td6tp0">
+		import { start } from "/wasm-experiments/_app/immutable/start-a23665ec.js";
 
 		start({
 			env: {},
@@ -68,7 +70,7 @@ AFFICHE</textarea>
 				errors: null
 			},
 			paths: {"base":"/wasm-experiments","assets":"/wasm-experiments"},
-			target: document.querySelector('[data-sveltekit-hydrate="je7tl5"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="td6tp0"]').parentNode,
 			trailing_slash: "never"
 		});
 	</script>
