@@ -99,7 +99,7 @@ ${syntax[OP.DISPLAY]}`;
     </fieldset>
     <fieldset class="source">
         <legend>Source (Langage Imaginaire)</legend>
-        <textarea bind:value={source} />
+        <textarea aria-label="Source code" bind:value={source} />
         <div>
             <button
                 on:click={() => {
