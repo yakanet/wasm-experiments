@@ -187,7 +187,12 @@ ${syntax[OP.DISPLAY]}`;
         grid-template-rows: 1fr 1fr;
     }
     main > * {
-        zoom: 2;
+        zoom: 1.5;
+    }
+    @media screen and (min-width: 1400px) {
+        main > * {
+            zoom: 2;
+        }
     }
     .grammar {
         grid-area: G;
