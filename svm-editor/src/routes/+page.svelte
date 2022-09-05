@@ -186,8 +186,10 @@ ${syntax[OP.DISPLAY]}`;
         grid-template-columns: 30vw 1fr 10vw;
         grid-template-rows: 1fr 1fr;
     }
-    main > * {
-        zoom: 1.5;
+    @media screen and (min-width: 1115px) and (max-width: 1399px) {
+        main > * {
+            zoom: 1.5;
+        }
     }
     @media screen and (min-width: 1400px) {
         main > * {
