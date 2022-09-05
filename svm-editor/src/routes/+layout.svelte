@@ -2,7 +2,7 @@
 
 <style global>
     html {
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     *,
