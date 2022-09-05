@@ -9,12 +9,12 @@
 	<meta name="description" content="Simple example to showcase a 3 operation virtual machine">
 	<meta http-equiv="content-security-policy" content="">
 	<link href="/wasm-experiments/_app/immutable/assets/_layout-c7a7cdb9.css" rel="stylesheet">
-	<link href="/wasm-experiments/_app/immutable/assets/_page-cc2082c1.css" rel="stylesheet">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-c4bf0701.js">
+	<link href="/wasm-experiments/_app/immutable/assets/_page-83108f3b.css" rel="stylesheet">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/start-4d0931fb.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/index-aaceca5f.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-518a11aa.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/singletons-de751b83.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_layout.svelte-4f959587.js">
-	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-3b2e553b.js">
+	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/components/pages/_page.svelte-8f0d0445.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/modules/pages/_page.ts-e9fa0128.js">
 	<link rel="modulepreload" href="/wasm-experiments/_app/immutable/chunks/_page-802cc2a3.js">
 </head>
@@ -23,15 +23,15 @@
 	<div>
 
 
-<main class="svelte-7sb1bc"><fieldset class="grammar svelte-7sb1bc"><legend>Machine Virtuelle</legend>
-        <dl style="display: flex; flex-direction:column; gap: 5px" class="svelte-7sb1bc"><dt><code>POUSSE</code> (OP 00)
+<main class="svelte-1jl5zhu"><fieldset class="grammar svelte-1jl5zhu"><legend>Machine Virtuelle</legend>
+        <dl style="display: flex; flex-direction:column; gap: 5px" class="svelte-1jl5zhu"><dt><code>POUSSE</code> (OP 00)
             </dt><dd>Pousse le nombre (0-255) qui arrive après sur la stack</dd><dt><code>SOMME</code> (OP 01)
             </dt><dd>Consomme deux nombres sur la stack, les additionne, et pousse le
                 résultat sur la stack
             </dd><dt><code>AFFICHE</code> (OP 02)
             </dt><dd>Prend le nombre qui est sur la stack et l&#39;affiche</dd></dl></fieldset>
-    <fieldset class="source svelte-7sb1bc"><legend>Source (Langage Imaginaire)</legend>
-        <textarea aria-label="Source code" class="svelte-7sb1bc">POUSSE 12
+    <fieldset class="source svelte-1jl5zhu"><legend>Source (Langage Imaginaire)</legend>
+        <textarea aria-label="Source code" class="svelte-1jl5zhu">POUSSE 12
 POUSSE 23
 POUSSE 48
 SOMME
@@ -39,7 +39,7 @@ SOMME
 AFFICHE</textarea>
         <div><button>Compile</button></div></fieldset>
 
-    <fieldset class="assembly svelte-7sb1bc" style="visibility: hidden"><legend>Assembly</legend>
+    <fieldset class="assembly svelte-1jl5zhu" style="visibility: hidden"><legend>Assembly</legend>
         <div style="display: flex; flex-wrap: wrap; align-content: baseline; gap: 5px; flex-direction: row;"></div>
         <div style="display: flex"><label><input type="checkbox">
                 Hex
@@ -50,13 +50,13 @@ AFFICHE</textarea>
             <label style="flex: 1; text-align: right">Position
                 <input style="text-align: right;" type="number" min="-1" max="0" value="-1"></label></div></fieldset>
 
-    <fieldset class="stack svelte-7sb1bc" style="overflow: hidden; visibility: hidden;"><legend>Stack</legend>
-        <ul style="display: flex; position: absolute; list-style: none; flex-direction: column-reverse;" class="svelte-7sb1bc"></ul></fieldset>
+    <fieldset class="stack svelte-1jl5zhu" style="overflow: hidden; visibility: hidden;"><legend>Stack</legend>
+        <ul style="display: flex; position: absolute; list-style: none; flex-direction: column-reverse;" class="svelte-1jl5zhu"></ul></fieldset>
 </main>
 
 
-		<script type="module" data-sveltekit-hydrate="1qkos2c">
-		import { start } from "/wasm-experiments/_app/immutable/start-c4bf0701.js";
+		<script type="module" data-sveltekit-hydrate="d01a38">
+		import { start } from "/wasm-experiments/_app/immutable/start-4d0931fb.js";
 
 		start({
 			env: {},
@@ -70,7 +70,7 @@ AFFICHE</textarea>
 				errors: null
 			},
 			paths: {"base":"/wasm-experiments","assets":"/wasm-experiments"},
-			target: document.querySelector('[data-sveltekit-hydrate="1qkos2c"]').parentNode,
+			target: document.querySelector('[data-sveltekit-hydrate="d01a38"]').parentNode,
 			trailing_slash: "never"
 		});
 	</script>
