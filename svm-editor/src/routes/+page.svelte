@@ -98,7 +98,7 @@ ${syntax[OP.DISPLAY]}`;
         </dl>
     </fieldset>
     <fieldset class="source">
-        <legend>Source (Langage Imaginaire)</legend>
+        <legend>Source</legend>
         <textarea aria-label="Source code" bind:value={source} />
         <div>
             <button
@@ -114,7 +114,7 @@ ${syntax[OP.DISPLAY]}`;
         class="assembly"
         style="visibility: {compiled.length ? 'initial' : 'hidden'}"
     >
-        <legend>Assembly</legend>
+        <legend>ByteCode</legend>
         <div
             style="display: flex; flex-wrap: wrap; align-content: baseline;"
             style:gap={formatAssembly ? "0" : "5px"}
