@@ -17,9 +17,11 @@ iexplorer http://localhost:8080
 
 A simple stack virtual machine designed with 3 instructions.
 
-- `PUSH`: push a value on the stack
-- `ADD`: pop 2 elements on the stack and push the sum
-- `PRINT`: pop and print the last value on the stack
+- `POUSSE`: push a value on the stack
+- `AJOUTE`: pop 2 elements on the stack and push the sum
+- `AFFICHE`: pop and print the last value on the stack
+
+[Demo on Vercel](https://vm.broutin.dev)
 
 🔗 [svm](./svm/)
 
